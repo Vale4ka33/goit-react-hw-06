@@ -1,8 +1,17 @@
+import { useDispatch, useSelector } from "react-redux";
 import css from "./SearchBox.module.css";
 import { useId } from "react";
+import { changeFilter, selectNameFilter } from "../../redux/filtersSlice";
 
-const SearchBox = ({ value, onChange }) => {
+const SearchBox = () => {
+  const dispatch = useDispatch();
   const searchId = useId();
+  const filterValue = useSelector(selectNameFilter);
+
+  const handleInputChange = (newValue) => {
+    dispatch(changeFilter(newValue));
+  };
+
   return (
     <div className={css.container}>
       <label htmlFor={searchId}>Find contacts by name</label>
@@ -11,8 +20,8 @@ const SearchBox = ({ value, onChange }) => {
         type="text"
         id={searchId}
         name="search"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={filterValue}
+        onChange={(e) => handleInputChange(e.target.value)}
       />
     </div>
   );
